@@ -9,6 +9,7 @@
  }
 \usepackage[english]{babel}
 \usepackage{tikz}
+\usetikzlibrary{decorations.pathreplacing}
 
 \title{\bf \Huge A Practical application of EOS projection geometry}
 \author{{\bf \Large Anthony J. Lombard$^{1,2}$}\\
@@ -25,6 +26,96 @@
 The report should contain an abstract within 300 words. The report should have a self-contained, citation-free abstract and state briefly the purpose of the research, methodology, key results and major conclusions. Abstract should be in a single paragraph with running sentences. Do not use any subheading or point list within the abstract. Also, non-standard or uncommon abbreviations should be avoided, but if essential they must be defined at their first mention in the abstract itself.  
 \noindent
 {\bf Keywords:} Authors are advised to write 3-5 keywords related to the project, separated by comma. 
+
+\tikzset{XOR/.style={draw,circle,append after command={
+        [shorten >=\pgflinewidth, shorten <=\pgflinewidth,]
+        (\tikzlastnode.north) edge (\tikzlastnode.south)
+        (\tikzlastnode.east) edge (\tikzlastnode.west)
+        }
+    }
+}
+
+\begin{tikzpicture}
+  % Frontal emitter
+  \draw (0,0) -- (5,.8);
+  \draw (0,0) -- (5,-.8);
+  \draw (5,.8) -- (5,-.8);
+  \filldraw (0,0) circle (2pt) node[above,scale=0.8] at (0,0.1) {Frontal emitter};
+
+  % Lateral emitter
+  \draw (4,-4) -- (3.2,1);
+  \draw (4,-4) -- (4.8,1);
+  \draw (3.2,1) -- (4.8,1);
+  \filldraw (4,-4) circle (2pt) node[below, scale=0.8] {Lateral emitter};
+
+  % Isocenter
+  \draw (4,0) node[XOR]{} node[above,scale=0.8] at (4, 0.15) {Isocenter};
+\end{tikzpicture}
+
+\begin{tikzpicture}
+  \path[draw,decorate,decoration={brace}] (0,.8) -- (4,.8) node[midway,above]{Source to Isocenter Distance (SID)};
+  % Frontal emitter
+  \draw (0,0) -- (5,.8);
+  \draw (0,0) -- (5,-.8);
+  \draw (5,.8) -- (5,-.8);
+  \filldraw (0,0) circle (2pt) node[above,scale=0.8] at (0,0.1) {};
+
+  % Isocenter
+  \draw (4,0) node[XOR]{} node[above,scale=0.8] at (4, 0.15) {};
+
+  \path[draw,decorate,decoration={brace,mirror}] (0,-1) -- (5,-1) node[midway,below]{Source to Detector Distance (SDD)};
+\end{tikzpicture}
+
+\begin{tikzpicture}
+  \draw (0,0) node[above]{0} -- (3,0) node[above]{C};
+  \draw (0,0) node[left] {0} -- (0,-5) node[left] {R};
+  \draw (0,-5) -- (3,-5);
+  \draw (3,-5) -- (3,0);
+
+  % Horizontal Lines
+  \draw (0,-0.25) -- (3,-.25);
+  \draw (0,-0.5) -- (3,-.5);
+  \draw (0,-0.75) -- (.75,-.75);
+  \draw (0,-1) -- (.75,-1);
+  \filldraw (0.625,-1.125) circle (0.5pt);
+  \draw (0,-1.25) -- (.75,-1.25);
+  \filldraw (0.625,-1.375) circle (0.5pt);
+  \draw (0,-1.5) -- (.75,-1.5);
+
+  \path[draw,decorate,decoration={brace}] (0.75 ,-1.125) -- (0.75,-1.375) node[midway,right]{$\lambda_z$};
+
+  % Vertical Lines
+  \draw (.25,0) -- (.25,-5);
+  \draw (.5,0) -- (.5,-5);
+  \draw (.75,0) -- (.75,-.75);
+  \draw (1,0) -- (1,-.75);
+  \filldraw (1.125,-.625) circle (0.5pt);
+  \draw (1.25,0) -- (1.25,-.75);
+  \filldraw (1.375,-.625) circle (0.5pt);
+  \draw (1.5,0) -- (1.5,-.75);
+
+  \path[draw,decorate,decoration={brace,mirror}] (1.125 ,-0.75) -- (1.375,-0.75) node[midway,below]{$\lambda$};
+\end{tikzpicture}
+
+\begin{equation}
+  z = z_0 - \lambda_z * v
+\end{equation}
+
+\begin{equation}
+  e_f = \{-sid,0,z\}
+\end{equation}
+
+\begin{equation}
+  d_f = \{sdd-sid, \frac{(u - \frac{C}{2}) \cdot \lambda \cdot sdd}{sid},z\}
+\end{equation}
+
+\begin{equation}
+  e_l = \{0,-sid,z\}
+\end{equation}
+
+\begin{equation}
+  d_l = \{\frac{(u - \frac{C}{2}) \cdot \lambda \cdot sdd}{sid}, sdd-sid, z\}
+\end{equation}
 
 \section{Introduction}
 
